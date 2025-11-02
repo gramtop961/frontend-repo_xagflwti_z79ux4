@@ -1,5 +1,20 @@
-import React from 'react';
-import { Check, Shield, Rocket } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Check, Shield, Rocket, Star } from 'lucide-react';
+
+const testimonials = [
+  {
+    name: 'Ava — Head of Growth',
+    quote: 'Our reply rates jumped 38% in two weeks. The warm-ups kept deliverability rock solid.',
+  },
+  {
+    name: 'Liam — Founder',
+    quote: 'Finally a tool that does lead gen and outreach right. We booked our first 10 demos in a week.',
+  },
+  {
+    name: 'Maya — SDR Lead',
+    quote: 'AI variants + analytics showed us exactly what to scale. The team actually loves using it.',
+  },
+];
 
 const tiers = [
   {
@@ -24,6 +39,26 @@ const tiers = [
     features: ['SSO & roles', 'CRM sync', 'Dedicated CSM', 'Usage-based pricing']
   }
 ];
+
+const TestimonialRotator = () => {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setIndex((i) => (i + 1) % testimonials.length), 4000);
+    return () => clearInterval(id);
+  }, []);
+  const t = testimonials[index];
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-slate-200/70 dark:border-white/10 bg-white/70 dark:bg-white/5 p-6">
+      <div className="flex items-center gap-1 text-amber-500" aria-hidden>
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Star key={i} size={14} fill="currentColor" />
+        ))}
+      </div>
+      <blockquote className="mt-3 text-sm leading-relaxed">{t.quote}</blockquote>
+      <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">{t.name}</div>
+    </div>
+  );
+};
 
 const Tier = ({ name, price, period, features, highlight }) => (
   <div
@@ -72,7 +107,14 @@ const CTAFooter = () => {
   return (
     <section id="pricing" className="relative">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        {/* Social proof */}
+        <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
+          <TestimonialRotator />
+          <TestimonialRotator />
+          <TestimonialRotator />
+        </div>
+
+        <div className="mx-auto mt-12 max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight">Predictable pipeline, simple pricing</h2>
           <p className="mt-3 text-slate-600 dark:text-slate-300">Start free. Upgrade when you’re seeing results. No contracts, cancel anytime.</p>
         </div>
@@ -111,6 +153,22 @@ const CTAFooter = () => {
             <a href="#" className="hover:underline">Docs</a>
           </nav>
         </footer>
+      </div>
+
+      {/* Sticky CTA for higher conversions */}
+      <div className="fixed inset-x-0 bottom-4 z-50 mx-auto w-full max-w-3xl px-4">
+        <div className="flex items-center justify-between gap-3 rounded-xl border border-slate-200/70 bg-white/90 p-3 shadow-xl backdrop-blur dark:border-white/10 dark:bg-slate-900/90">
+          <div className="text-sm">
+            <span className="font-medium">Start free</span>
+            <span className="ml-2 text-slate-600 dark:text-slate-300">No card required • Cancel anytime</span>
+          </div>
+          <a
+            href="#pricing"
+            className="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-sm shadow-blue-600/20 ring-1 ring-white/10 hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          >
+            Start free trial
+          </a>
+        </div>
       </div>
     </section>
   );

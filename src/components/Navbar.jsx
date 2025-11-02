@@ -27,17 +27,29 @@ const Navbar = () => {
     <header className="sticky top-0 z-40 w-full backdrop-blur supports-[backdrop-filter]:bg-white/50 dark:supports-[backdrop-filter]:bg-[#0b1220]/60 border-b border-slate-200/60 dark:border-white/10">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="#home" className="group inline-flex items-center gap-2 font-semibold tracking-tight">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/20 ring-1 ring-white/10">
+          <span className="relative inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/20 ring-1 ring-white/10">
+            <span className="absolute inset-0 animate-ping rounded-full bg-blue-500/20" aria-hidden />
             <Rocket size={18} />
           </span>
           <span className="text-lg">PipelineIQ</span>
         </a>
 
         <nav className="hidden md:flex items-center gap-8 text-sm">
-          <a href="#features" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">Features</a>
-          <a href="#solutions" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">Solutions</a>
-          <a href="#pricing" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">Pricing</a>
-          <a href="#faq" className="text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors">FAQ</a>
+          {[
+            { href: '#features', label: 'Features' },
+            { href: '#solutions', label: 'Solutions' },
+            { href: '#pricing', label: 'Pricing' },
+            { href: '#faq', label: 'FAQ' },
+          ].map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="relative text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
+            >
+              {item.label}
+              <span className="absolute inset-x-0 -bottom-1 mx-auto h-0.5 w-0 bg-gradient-to-r from-blue-600 to-indigo-600 transition-all group-hover:w-full" />
+            </a>
+          ))}
         </nav>
 
         <div className="flex items-center gap-2">
